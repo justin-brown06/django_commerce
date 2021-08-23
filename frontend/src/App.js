@@ -1,4 +1,5 @@
 import { Header, Footer } from "./components";
+import {HomeScreen} from './screens';
 import { Navbar } from "./components/Navbar";
 
 function App() {
@@ -8,7 +9,7 @@ function App() {
         main={
           <div className="App">
             <Header />
-            eCommerce
+            <HomeScreen />
             <Footer />
           </div>
         }
