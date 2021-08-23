@@ -17,7 +17,7 @@ You will also see any lint errors in the console.
 ### `yarn build`
 
 Builds the app for production to the `build` folder.\
-GL - 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
+
 It correctly bundles React in production mode and optimizes the build for the best performance.
 
 The build is minified and the filenames include the hashes.\
