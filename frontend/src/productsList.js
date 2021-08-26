@@ -76,5 +76,5 @@ export const productsList = [
       'countInStock': 0,
       'rating': 4,
       'numReviews': 12,
-    },
+    }
   ]

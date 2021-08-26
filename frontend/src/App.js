@@ -8,9 +8,9 @@ function App() {
       <Navbar
         main={
           <div className="App">
-            <Header />
+            {/* <Header /> */}
             <HomeScreen />
-            <Footer />
+            {/* <Footer /> */}
           </div>
         }
       />

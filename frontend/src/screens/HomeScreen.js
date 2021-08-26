@@ -1,20 +1,35 @@
-import React from 'react'
-import {productsList} from '../static';
-import { makeStyles } from '@material-ui/core/styles';
-import Card from '@material-ui/core/Card';
-import CardActionArea from '@material-ui/core/CardActionArea';
-import CardActions from '@material-ui/core/CardActions';
-import CardContent from '@material-ui/core/CardContent';
-import CardMedia from '@material-ui/core/CardMedia';
-import Button from '@material-ui/core/Button';
-import Typography from '@material-ui/core/Typography';
+import React from "react";
+import { productsList } from "../productsList";
+import { makeStyles } from "@material-ui/core/styles";
+import {
+  Card,
+  CardActionArea,
+  CardContent,
+  CardMedia,
+  Grid,
+  Typography,
+} from "@material-ui/core";
 
 const useStyles = makeStyles({
   root: {
-    maxWidth: 345,
+    display: "flex",
   },
   media: {
-    height: 140,
+    height: '24rem',
+  },
+  container: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
+    width: "100%",
+  },
+  item: {
+    height: "35rem",
+    margin: "auto",
+  },
+  gridItem: {
+    display: "flex",
+    margin: ".5rem",
   },
 });
 
@@ -22,32 +37,41 @@ export const HomeScreen = () => {
   const classes = useStyles();
 
   return (
-    productsList.map(product => (<Card className={classes.root}>
-      <CardActionArea>
-        <CardMedia
-          className={classes.media}
-          image="/static/images/cards/contemplative-reptile.jpg"
-          title="Contemplative Reptile"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="h2">
-            Lizard
-          </Typography>
-          <Typography variant="body2" color="textSecondary" component="p">
-            Lizards are a widespread group of squamate reptiles, with over 6,000 species, ranging
-            across all continents except Antarctica
-          </Typography>
-        </CardContent>
-      </CardActionArea>
-      <CardActions>
-        <Button size="small" color="primary">
-          Share
-        </Button>
-        <Button size="small" color="primary">
-          Learn More
-        </Button>
-      </CardActions>
-    </Card>
-    ))
+    <Grid container className={classes.container}>
+      {productsList.map((product) => (
+        <Grid
+          key={`product_${product._id}`}
+          container
+          item
+          md={3}
+          lg={3}
+          spacing={2}
+          className={classes.gridItem}
+        >
+          <Card className={classes.item}>
+            <CardActionArea style={{height: '35rem'}}>
+              <CardMedia
+                className={classes.media}
+                image={product.image}
+                title={product.name}
+              />
+              <CardContent>
+                <Typography gutterBottom variant="h5" component="h2">
+                  {product.name}
+                </Typography>
+                <br/>
+                <Typography variant="body2" color="textSecondary" component="p">
+                  {product.rating} from {product.numReviews} reviews
+                </Typography>
+                <br/>
+                <Typography variant="h3">
+                  ${product.price}
+                </Typography>
+              </CardContent>
+            </CardActionArea>
+          </Card>
+        </Grid>
+      ))}
+    </Grid>
   );
-}
+};
