@@ -16,7 +16,7 @@ const useStyles = makeStyles({
     display: "flex",
   },
   media: {
-    height: '24rem',
+    height: '65%',
   },
   container: {
     display: "flex",
@@ -59,13 +59,13 @@ export const HomeScreen = () => {
                 title={product.name}
               />
               <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography gutterBottom variant="h6">
                   {product.name}
                 </Typography>
                 <br/>
                <Rating value={product.rating} text={`${product.numReviews} reviews`} color={'#f8e825'}/>
                 <br/>
-                <Typography variant="h3">
+                <Typography variant="h4">
                   ${product.price}
                 </Typography>
               </CardContent>
