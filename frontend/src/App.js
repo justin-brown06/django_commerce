@@ -1,4 +1,3 @@
-import { Header, Footer } from "./components";
 import {HomeScreen} from './screens';
 import { Navbar } from "./components/Navbar";
 
@@ -8,9 +7,7 @@ function App() {
       <Navbar
         main={
           <div className="App">
-            {/* <Header /> */}
             <HomeScreen />
-            {/* <Footer /> */}
           </div>
         }
       />

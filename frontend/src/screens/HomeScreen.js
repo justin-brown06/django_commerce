@@ -1,4 +1,5 @@
 import React from "react";
+import { Rating } from '../components';
 import { productsList } from "../productsList";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -24,12 +25,14 @@ const useStyles = makeStyles({
     width: "100%",
   },
   item: {
+    width: '100%',
     height: "35rem",
     margin: "auto",
   },
   gridItem: {
     display: "flex",
     margin: ".5rem",
+    width: '18vh'
   },
 });
 
@@ -60,9 +63,7 @@ export const HomeScreen = () => {
                   {product.name}
                 </Typography>
                 <br/>
-                <Typography variant="body2" color="textSecondary" component="p">
-                  {product.rating} from {product.numReviews} reviews
-                </Typography>
+               <Rating value={product.rating} text={`${product.numReviews} reviews`} color={'#f8e825'}/>
                 <br/>
                 <Typography variant="h3">
                   ${product.price}
