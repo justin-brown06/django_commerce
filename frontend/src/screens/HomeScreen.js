@@ -62,7 +62,7 @@ export const HomeScreen = () => {
                 />
               </Link>
               <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
+                <Typography gutterBottom variant="h6">
                   {product.name}
                 </Typography>
                 <br />
