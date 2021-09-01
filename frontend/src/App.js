@@ -1,17 +1,20 @@
-import {HomeScreen} from './screens';
+import { HomeScreen, ProductScreen } from "./screens";
 import { Navbar } from "./components/Navbar";
+
+import { BrowserRouter as Router, Route } from "react-router-dom";
 
 function App() {
   return (
-    <div>
+    <Router>
       <Navbar
         main={
           <div className="App">
-            <HomeScreen />
+            <Route path="/" component={HomeScreen} exact/>
+            <Route path="/product/:id" component={ProductScreen}/>
           </div>
         }
       />
-    </div>
+    </Router>
   );
 }
 

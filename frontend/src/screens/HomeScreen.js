@@ -1,5 +1,5 @@
 import React from "react";
-import { Rating } from '../components';
+import { Rating } from "../components";
 import { productsList } from "../productsList";
 import { makeStyles } from "@material-ui/core/styles";
 import {
@@ -10,13 +10,14 @@ import {
   Grid,
   Typography,
 } from "@material-ui/core";
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles({
   root: {
     display: "flex",
   },
   media: {
-    height: '24rem',
+    height: "24rem",
   },
   container: {
     display: "flex",
@@ -25,14 +26,14 @@ const useStyles = makeStyles({
     width: "100%",
   },
   item: {
-    width: '100%',
+    width: "100%",
     height: "35rem",
     margin: "auto",
   },
   gridItem: {
     display: "flex",
     margin: ".5rem",
-    width: '18vh'
+    width: "18vh",
   },
 });
 
@@ -52,22 +53,26 @@ export const HomeScreen = () => {
           className={classes.gridItem}
         >
           <Card className={classes.item}>
-            <CardActionArea style={{height: '35rem'}}>
-              <CardMedia
-                className={classes.media}
-                image={product.image}
-                title={product.name}
-              />
+            <CardActionArea style={{ height: "35rem" }}>
+              <Link to={`/product/${product._id}`}>
+                <CardMedia
+                  className={classes.media}
+                  image={product.image}
+                  title={product.name}
+                />
+              </Link>
               <CardContent>
                 <Typography gutterBottom variant="h5" component="h2">
                   {product.name}
                 </Typography>
-                <br/>
-               <Rating value={product.rating} text={`${product.numReviews} reviews`} color={'#f8e825'}/>
-                <br/>
-                <Typography variant="h3">
-                  ${product.price}
-                </Typography>
+                <br />
+                <Rating
+                  value={product.rating}
+                  text={`${product.numReviews} reviews`}
+                  color={"#f8e825"}
+                />
+                <br />
+                <Typography variant="h3">${product.price}</Typography>
               </CardContent>
             </CardActionArea>
           </Card>

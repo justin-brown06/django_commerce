@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Link } from "react-router-dom";
 import clsx from "clsx";
 import { makeStyles, useTheme } from "@material-ui/core/styles";
 import {
@@ -112,9 +113,11 @@ export const Navbar = (props) => {
           >
             <MenuIcon />
           </IconButton>
-          <Typography variant="h6" noWrap>
-            Persistent drawer
-          </Typography>
+          <Link to="/">
+            <Typography variant="h6" noWrap>
+              Django eCommerce Project
+            </Typography>
+          </Link>
         </Toolbar>
       </AppBar>
       <Drawer
