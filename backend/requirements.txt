@@ -1,0 +1,5 @@
+# Most Recent Version Packages
+setuptools
+wheel
+djangorestframework
+django-cors-headers
