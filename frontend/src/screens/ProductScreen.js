@@ -1,9 +1,9 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 // import { Link } from "react-router-dom";
 import { Rating } from "../components";
 import { makeStyles } from "@material-ui/core/styles";
-import { productsList } from "../productsList";
 import { Grid, List, ListItem } from "@material-ui/core";
+import axios from "axios";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => ({
   parentGrid: {
     display: "flex",
     flexFlow: "row wrap",
-    alignItems: 'center'
+    alignItems: "center",
   },
   middleGrid: {
     maxWidth: 360,
@@ -45,7 +45,16 @@ const useStyles = makeStyles((theme) => ({
 
 export const ProductScreen = ({ match }) => {
   const classes = useStyles();
-  const product = productsList.find((p) => p._id === match.params.id);
+  const [product, setProduct] = useState([]);
+
+  useEffect(() => {
+    const fetchProduct = async () => {
+      const { data } = await axios.get(`/api/products/${match.params.id}`);
+      setProduct(data);
+    };
+
+    fetchProduct();
+  }, []);
 
   return (
     <Grid container className={classes.parentGrid}>

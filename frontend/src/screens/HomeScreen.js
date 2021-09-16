@@ -1,6 +1,5 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { Rating } from "../components";
-import { productsList } from "../productsList";
 import { makeStyles } from "@material-ui/core/styles";
 import {
   Card,
@@ -11,6 +10,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import { Link } from "react-router-dom";
+import axios from "axios";
 
 const useStyles = makeStyles({
   root: {
@@ -39,10 +39,20 @@ const useStyles = makeStyles({
 
 export const HomeScreen = () => {
   const classes = useStyles();
+  const [products, setProducts] = useState([]);
+
+  useEffect(() => {
+    const fetchProducts = async () => {
+      const { data } = await axios.get("/api/products");
+      setProducts(data);
+    };
+
+    fetchProducts();
+  }, []);
 
   return (
     <Grid container className={classes.container}>
-      {productsList.map((product) => (
+      {products.map((product) => (
         <Grid
           key={`product_${product._id}`}
           container
