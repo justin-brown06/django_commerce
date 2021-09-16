@@ -28,3 +28,6 @@ yarn-error.log*
 
 # VSCode Settings
 **/.vscode/
+
+# Python dependancies
+**/__pycache__
