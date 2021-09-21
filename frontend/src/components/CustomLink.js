@@ -20,7 +20,7 @@ export const CustomLink = ({ to, color, size, style, children }) => {
             style={{
                 ...style,
                 textDecoration: 'none',
-                color: color || '#30323B'
+                color: color || '#5BCA81'
             }}
         >
             {children}

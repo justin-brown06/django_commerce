@@ -34,8 +34,8 @@ const useStyles = makeStyles(theme => ({
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen
         }),
-        color: '#30323B',
-        backgroundColor: '#5BCA81'
+        color: '#5BCA81',
+        backgroundColor: '#30323B'
     },
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -54,13 +54,13 @@ const useStyles = makeStyles(theme => ({
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
-        color: '#30323B',
+        color: '#5BCA81',
         border: 'none'
     },
     drawerPaper: {
         width: drawerWidth,
-        color: '#30323B',
-        backgroundColor: '#5BCA81'
+        color: '#5BCA81',
+        backgroundColor: '#30323B'
     },
     drawerHeader: {
         display: 'flex',
@@ -68,7 +68,7 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(0, 2),
         ...theme.mixins.toolbar,
         justifyContent: 'flex-end',
-        color: '#30323B'
+        color: '#5BCA81'
     },
     content: {
         flexGrow: 1,
@@ -110,7 +110,7 @@ export const Navbar = props => {
             >
                 <Toolbar>
                     <IconButton
-                        style={{ color: '#30323B' }}
+                        style={{ color: '#5BCA81' }}
                         aria-label='open drawer'
                         onClick={() => setOpen(!open)}
                         edge='start'
@@ -128,7 +128,7 @@ export const Navbar = props => {
                             <Badge
                                 key='shoppingCartCount'
                                 badgeContent={cartCount}
-                                color='secondary'
+                                style={{ color: '#5BCA81' }}
                             >
                                 <ShoppingCartIcon />
                             </Badge>
@@ -148,7 +148,7 @@ export const Navbar = props => {
             >
                 <div className={classes.drawerHeader}>
                     <IconButton
-                        style={{ color: '#30323B' }}
+                        style={{ color: '#5BCA81' }}
                         onClick={() => setOpen(!open)}
                     >
                         <ChevronLeftIcon />
@@ -158,7 +158,7 @@ export const Navbar = props => {
                     {['Inbox', 'Starred', 'Send email', 'Drafts'].map(
                         (text, index) => (
                             <ListItem button key={text}>
-                                <ListItemIcon style={{ color: '#30323B' }}>
+                                <ListItemIcon style={{ color: '#5BCA81' }}>
                                     {index % 2 === 0 ? (
                                         <InboxIcon />
                                     ) : (
@@ -175,7 +175,7 @@ export const Navbar = props => {
                     <List>
                         {['Subscriptions', 'Logout'].map((text, index) => (
                             <ListItem button key={text}>
-                                <ListItemIcon style={{ color: '#30323B' }}>
+                                <ListItemIcon style={{ color: '#5BCA81' }}>
                                     {index % 2 === 0 ? (
                                         <InboxIcon />
                                     ) : (

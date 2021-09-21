@@ -100,7 +100,7 @@ export const CartScreen = ({ match, location, history }) => {
                 <div>
                     <CustomLink
                         to='/'
-                        color='#5BCA81'
+                        color='#30323B'
                         style={{ margin: '.5rem' }}
                     >
                         Continue Shopping

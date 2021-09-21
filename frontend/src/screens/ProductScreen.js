@@ -75,7 +75,7 @@ export const ProductScreen = ({ match, history }) => {
     ) : (
         <Grid container className={classes.parentGrid}>
             <Grid item md={6} lg={6}>
-                <CustomLink to='/' color='#5BCA81' style={{ margin: '.5rem' }}>
+                <CustomLink to='/' color='#30323B' style={{ margin: '.5rem' }}>
                     Continue Shopping
                 </CustomLink>
                 <img src={product.image} alt={product.name} />
