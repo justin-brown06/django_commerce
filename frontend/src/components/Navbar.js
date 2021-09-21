@@ -1,27 +1,27 @@
-import React, { forwardRef, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState } from 'react';
 import clsx from 'clsx';
-import { makeStyles, useTheme } from '@material-ui/core/styles';
+import { makeStyles } from '@material-ui/core/styles';
 import {
     AppBar,
+    Badge,
     CssBaseline,
-    Divider,
     Drawer,
     IconButton,
     List,
     ListItem,
     ListItemIcon,
     ListItemText,
-    Toolbar,
-    Typography
+    Toolbar
 } from '@material-ui/core';
 import {
     ChevronLeft as ChevronLeftIcon,
-    ChevronRight as ChevronRightIcon,
+    ShoppingCart as ShoppingCartIcon,
     Menu as MenuIcon,
     MoveToInbox as InboxIcon,
     Mail as MailIcon
 } from '@material-ui/icons';
+import { CustomLink } from '../components';
+import { useSelector } from 'react-redux';
 
 const drawerWidth = 240;
 
@@ -33,7 +33,9 @@ const useStyles = makeStyles(theme => ({
         transition: theme.transitions.create(['margin', 'width'], {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen
-        })
+        }),
+        color: '#30323B',
+        backgroundColor: '#5BCA81'
     },
     appBarShift: {
         width: `calc(100% - ${drawerWidth}px)`,
@@ -51,17 +53,22 @@ const useStyles = makeStyles(theme => ({
     },
     drawer: {
         width: drawerWidth,
-        flexShrink: 0
+        flexShrink: 0,
+        color: '#30323B',
+        border: 'none'
     },
     drawerPaper: {
-        width: drawerWidth
+        width: drawerWidth,
+        color: '#30323B',
+        backgroundColor: '#5BCA81'
     },
     drawerHeader: {
         display: 'flex',
         alignItems: 'center',
         padding: theme.spacing(0, 2),
         ...theme.mixins.toolbar,
-        justifyContent: 'flex-end'
+        justifyContent: 'flex-end',
+        color: '#30323B'
     },
     content: {
         flexGrow: 1,
@@ -78,29 +85,19 @@ const useStyles = makeStyles(theme => ({
             duration: theme.transitions.duration.enteringScreen
         }),
         marginLeft: 0
+    },
+    grow: {
+        flexGrow: 1
     }
 }));
 
 export const Navbar = props => {
     const classes = useStyles();
-    const theme = useTheme();
+    const { cartItems } = useSelector(state => state.cart);
+    const cartCount = cartItems
+        .map(x => x.quantity)
+        .reduce((acc, cv) => acc + cv, 0);
     const [open, setOpen] = useState(false);
-
-    const handleDrawerOpen = () => {
-        setOpen(true);
-    };
-
-    const handleDrawerClose = () => {
-        setOpen(false);
-    };
-
-    const CustomLink = useMemo(
-        () =>
-            forwardRef((linkProps, ref) => (
-                <Link ref={ref} to='/' {...linkProps} />
-            )),
-        []
-    );
 
     return (
         <div className={classes.root}>
@@ -113,9 +110,9 @@ export const Navbar = props => {
             >
                 <Toolbar>
                     <IconButton
-                        color='inherit'
+                        style={{ color: '#30323B' }}
                         aria-label='open drawer'
-                        onClick={handleDrawerOpen}
+                        onClick={() => setOpen(!open)}
                         edge='start'
                         className={clsx(
                             classes.menuButton,
@@ -124,20 +121,25 @@ export const Navbar = props => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <Typography
-                        variant='h6'
-                        noWrap
-                        color='inherit'
-                        component={CustomLink}
-                        style={{ textDecoration: 'none' }}
-                    >
-                        Django eCommerce Project
-                    </Typography>
+                    <CustomLink to='/'>Homepage</CustomLink>
+                    <div className={classes.grow} />
+                    <CustomLink to='/cart'>
+                        <IconButton key='shoppingCart' color='inherit'>
+                            <Badge
+                                key='shoppingCartCount'
+                                badgeContent={cartCount}
+                                color='secondary'
+                            >
+                                <ShoppingCartIcon />
+                            </Badge>
+                        </IconButton>
+                    </CustomLink>
                 </Toolbar>
             </AppBar>
             <Drawer
-                className={classes.drawer}
+                key='mainNavMenu'
                 variant='persistent'
+                className={classes.drawer}
                 anchor='left'
                 open={open}
                 classes={{
@@ -145,20 +147,18 @@ export const Navbar = props => {
                 }}
             >
                 <div className={classes.drawerHeader}>
-                    <IconButton onClick={handleDrawerClose}>
-                        {theme.direction === 'ltr' ? (
-                            <ChevronLeftIcon />
-                        ) : (
-                            <ChevronRightIcon />
-                        )}
+                    <IconButton
+                        style={{ color: '#30323B' }}
+                        onClick={() => setOpen(!open)}
+                    >
+                        <ChevronLeftIcon />
                     </IconButton>
                 </div>
-                <Divider />
                 <List>
                     {['Inbox', 'Starred', 'Send email', 'Drafts'].map(
                         (text, index) => (
                             <ListItem button key={text}>
-                                <ListItemIcon>
+                                <ListItemIcon style={{ color: '#30323B' }}>
                                     {index % 2 === 0 ? (
                                         <InboxIcon />
                                     ) : (
@@ -170,17 +170,23 @@ export const Navbar = props => {
                         )
                     )}
                 </List>
-                <Divider />
-                <List>
-                    {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                        <ListItem button key={text}>
-                            <ListItemIcon>
-                                {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                            </ListItemIcon>
-                            <ListItemText primary={text} />
-                        </ListItem>
-                    ))}
-                </List>
+                <div className={classes.grow} />
+                <div style={{ marginBottom: '10rem' }}>
+                    <List>
+                        {['Subscriptions', 'Logout'].map((text, index) => (
+                            <ListItem button key={text}>
+                                <ListItemIcon style={{ color: '#30323B' }}>
+                                    {index % 2 === 0 ? (
+                                        <InboxIcon />
+                                    ) : (
+                                        <MailIcon />
+                                    )}
+                                </ListItemIcon>
+                                <ListItemText primary={text} />
+                            </ListItem>
+                        ))}
+                    </List>
+                </div>
             </Drawer>
             <main
                 className={clsx(classes.content, {

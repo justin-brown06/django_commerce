@@ -1,11 +1,11 @@
 import React from "react";
-import { Typography } from "@material-ui/core";
-import { makeStyles } from "@material-ui/core/styles";
+import { Typography } from '@material-ui/core';
+import { makeStyles } from '@material-ui/core/styles';
 import {
-  Star as StarIcon,
-  StarHalf as StarHalfIcon,
-  StarOutline as StarOutlineIcon,
-} from "@material-ui/icons";
+    Star as StarIcon,
+    StarHalf as StarHalfIcon,
+    StarOutline as StarOutlineIcon
+} from '@material-ui/icons';
 
 export const Rating = ({ value, text, color }) => {
   const useStyles = makeStyles({
