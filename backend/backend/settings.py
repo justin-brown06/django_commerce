@@ -38,10 +38,10 @@ INSTALLED_APPS = [
     "django.contrib.sessions",
     "django.contrib.messages",
     "django.contrib.staticfiles",
-    "base.apps.BaseConfig",
     "rest_framework",
     "corsheaders",
     "rest_framework_simplejwt",
+    "base.apps.BaseConfig",
 ]
 
 REST_FRAMEWORK = {
