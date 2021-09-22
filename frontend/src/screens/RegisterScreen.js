@@ -34,16 +34,18 @@ const useStyles = makeStyles(theme => ({
         marginTop: theme.spacing(1)
     },
     submit: {
-        margin: theme.spacing(3, 0, 2)
+        margin: theme.spacing(3, 0, 2),
+        backgroundColor: '#5BCA81',
+        color: '#30323B'
     }
 }));
 
 export const RegisterScreen = ({ location, history }) => {
     const classes = useStyles();
     const dispatch = useDispatch();
-    const { error, loading, userInfo } = useSelector(
-        state => state.userRegister
-    );
+    const { error, loading, userInfo } = useSelector(state => state.user);
+    const [firstName, setFirstName] = useState('');
+    const [lastName, setLastName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [showPassword, setShowPassword] = useState(false);
@@ -65,7 +67,8 @@ export const RegisterScreen = ({ location, history }) => {
         if (password !== confirmPassword) {
             return setMessage('Passwords do not match.');
         }
-        dispatch(Register(email, password));
+
+        dispatch(Register(firstName, lastName, email, password));
     };
 
     return (
@@ -105,13 +108,15 @@ export const RegisterScreen = ({ location, history }) => {
                             <Grid item xs={12} sm={6}>
                                 <BokChoyTextField
                                     autoFocus
-                                    autoComplete='fname'
                                     name='firstName'
                                     variant='outlined'
                                     required
                                     fullWidth
                                     id='firstName'
                                     label='First Name'
+                                    onChange={({ target }) =>
+                                        setFirstName(target.value)
+                                    }
                                 />
                             </Grid>
                             <Grid item xs={12} sm={6}>
@@ -123,6 +128,9 @@ export const RegisterScreen = ({ location, history }) => {
                                     label='Last Name'
                                     name='lastName'
                                     autoComplete='lname'
+                                    onChange={({ target }) =>
+                                        setLastName(target.value)
+                                    }
                                 />
                             </Grid>
                             <Grid item xs={12}>
@@ -189,12 +197,11 @@ export const RegisterScreen = ({ location, history }) => {
                             type='submit'
                             fullWidth
                             variant='contained'
-                            style={{
-                                backgroundColor: '#5BCA81',
-                                color: '#30323B'
-                            }}
                             className={classes.submit}
                             onClick={submitHandler}
+                            disabled={
+                                !firstName || !lastName || !email || !password
+                            }
                         >
                             Register
                         </Button>
