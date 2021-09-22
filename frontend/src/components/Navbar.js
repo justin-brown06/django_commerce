@@ -1,29 +1,22 @@
 import React, { useState } from 'react';
-import clsx from 'clsx';
-import { makeStyles } from '@material-ui/core/styles';
+import { useDispatch, useSelector } from 'react-redux';
+import { makeStyles, withStyles } from '@material-ui/core/styles';
 import {
     AppBar,
     Badge,
     CssBaseline,
-    Drawer,
     IconButton,
-    List,
-    ListItem,
-    ListItemIcon,
-    ListItemText,
-    Toolbar
+    Menu,
+    MenuItem,
+    Toolbar,
+    Typography
 } from '@material-ui/core';
 import {
-    ChevronLeft as ChevronLeftIcon,
-    ShoppingCart as ShoppingCartIcon,
-    Menu as MenuIcon,
-    MoveToInbox as InboxIcon,
-    Mail as MailIcon
+    Person as PersonIcon,
+    ShoppingCart as ShoppingCartIcon
 } from '@material-ui/icons';
 import { CustomLink } from '../components';
-import { useSelector } from 'react-redux';
-
-const drawerWidth = 240;
+import { Logout } from '../actions/userActions';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -37,30 +30,8 @@ const useStyles = makeStyles(theme => ({
         color: '#5BCA81',
         backgroundColor: '#30323B'
     },
-    appBarShift: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
-        transition: theme.transitions.create(['margin', 'width'], {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen
-        })
-    },
-    menuButton: {
-        marginRight: theme.spacing(2)
-    },
     hide: {
         display: 'none'
-    },
-    drawer: {
-        width: drawerWidth,
-        flexShrink: 0,
-        color: '#5BCA81',
-        border: 'none'
-    },
-    drawerPaper: {
-        width: drawerWidth,
-        color: '#5BCA81',
-        backgroundColor: '#30323B'
     },
     drawerHeader: {
         display: 'flex',
@@ -76,51 +47,52 @@ const useStyles = makeStyles(theme => ({
         transition: theme.transitions.create('margin', {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen
-        }),
-        marginLeft: -drawerWidth
-    },
-    contentShift: {
-        transition: theme.transitions.create('margin', {
-            easing: theme.transitions.easing.easeOut,
-            duration: theme.transitions.duration.enteringScreen
-        }),
-        marginLeft: 0
+        })
     },
     grow: {
         flexGrow: 1
     }
 }));
 
+const StyledMenu = withStyles({
+    paper: {
+        border: '1px solid #d3d4d5'
+    }
+})(props => (
+    <Menu
+        elevation={0}
+        getContentAnchorEl={null}
+        anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'center'
+        }}
+        transformOrigin={{
+            vertical: 'top',
+            horizontal: 'center'
+        }}
+        {...props}
+    />
+));
+
 export const Navbar = props => {
+    const dispatch = useDispatch();
     const classes = useStyles();
+    const { userInfo } = useSelector(state => state.user);
     const { cartItems } = useSelector(state => state.cart);
+    const [anchorEl, setAnchorEl] = useState(null);
     const cartCount = cartItems
         .map(x => x.quantity)
         .reduce((acc, cv) => acc + cv, 0);
-    const [open, setOpen] = useState(false);
+
+    const logoutHandler = () => {
+        dispatch(Logout());
+    };
 
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar
-                position='fixed'
-                className={clsx(classes.appBar, {
-                    [classes.appBarShift]: open
-                })}
-            >
+            <AppBar position='fixed' className={classes.appBar}>
                 <Toolbar>
-                    <IconButton
-                        style={{ color: '#5BCA81' }}
-                        aria-label='open drawer'
-                        onClick={() => setOpen(!open)}
-                        edge='start'
-                        className={clsx(
-                            classes.menuButton,
-                            open && classes.hide
-                        )}
-                    >
-                        <MenuIcon />
-                    </IconButton>
                     <CustomLink to='/'>Homepage</CustomLink>
                     <div className={classes.grow} />
                     <CustomLink to='/cart'>
@@ -134,65 +106,71 @@ export const Navbar = props => {
                             </Badge>
                         </IconButton>
                     </CustomLink>
+                    {userInfo ? (
+                        <div>
+                            <IconButton
+                                aria-controls='customized-menu'
+                                aria-haspopup='true'
+                                variant='contained'
+                                onClick={e => setAnchorEl(e.currentTarget)}
+                            >
+                                <PersonIcon style={{ color: '#5BCA81' }} />
+                                <Typography
+                                    style={{ color: '#5BCA81' }}
+                                    variant='body1'
+                                >
+                                    Hello, {userInfo.name}
+                                </Typography>
+                            </IconButton>
+                            <StyledMenu
+                                id='customized-menu'
+                                anchorEl={anchorEl}
+                                keepMounted
+                                open={Boolean(anchorEl)}
+                                onClose={() => setAnchorEl(null)}
+                            >
+                                <MenuItem onClick={() => setAnchorEl(null)}>
+                                    <CustomLink
+                                        to='/profile'
+                                        color='#30323B'
+                                        size='body1'
+                                    >
+                                        Profile
+                                    </CustomLink>
+                                </MenuItem>
+                                <MenuItem
+                                    style={{ color: '#30323B' }}
+                                    onClick={() => {
+                                        setAnchorEl(null);
+                                        logoutHandler();
+                                    }}
+                                >
+                                    <CustomLink
+                                        to='/'
+                                        color='#30323B'
+                                        size='body1'
+                                    >
+                                        Logout
+                                    </CustomLink>
+                                </MenuItem>
+                            </StyledMenu>
+                        </div>
+                    ) : (
+                        <CustomLink to='/login' size='body1'>
+                            <IconButton key='loginPerson' color='inherit'>
+                                <PersonIcon />
+                                <Typography
+                                    style={{ color: '#5BCA81' }}
+                                    variant='body1'
+                                >
+                                    Log In
+                                </Typography>
+                            </IconButton>
+                        </CustomLink>
+                    )}
                 </Toolbar>
             </AppBar>
-            <Drawer
-                key='mainNavMenu'
-                variant='persistent'
-                className={classes.drawer}
-                anchor='left'
-                open={open}
-                classes={{
-                    paper: classes.drawerPaper
-                }}
-            >
-                <div className={classes.drawerHeader}>
-                    <IconButton
-                        style={{ color: '#5BCA81' }}
-                        onClick={() => setOpen(!open)}
-                    >
-                        <ChevronLeftIcon />
-                    </IconButton>
-                </div>
-                <List>
-                    {['Inbox', 'Starred', 'Send email', 'Drafts'].map(
-                        (text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon style={{ color: '#5BCA81' }}>
-                                    {index % 2 === 0 ? (
-                                        <InboxIcon />
-                                    ) : (
-                                        <MailIcon />
-                                    )}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        )
-                    )}
-                </List>
-                <div className={classes.grow} />
-                <div style={{ marginBottom: '10rem' }}>
-                    <List>
-                        {['Subscriptions', 'Logout'].map((text, index) => (
-                            <ListItem button key={text}>
-                                <ListItemIcon style={{ color: '#5BCA81' }}>
-                                    {index % 2 === 0 ? (
-                                        <InboxIcon />
-                                    ) : (
-                                        <MailIcon />
-                                    )}
-                                </ListItemIcon>
-                                <ListItemText primary={text} />
-                            </ListItem>
-                        ))}
-                    </List>
-                </div>
-            </Drawer>
-            <main
-                className={clsx(classes.content, {
-                    [classes.contentShift]: open
-                })}
-            >
+            <main className={classes.content}>
                 <div className={classes.drawerHeader} />
                 {props.main}
             </main>
