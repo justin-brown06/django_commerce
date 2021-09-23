@@ -55,6 +55,27 @@ def getUserProfile(req):
     return Response(serializer.data)
 
 
+@api_view(["PUT"])
+@permission_classes([IsAuthenticated])
+def updateUserProfile(req):
+    user = req.user
+
+    data = req.data
+
+    user.first_name = data["first_name"]
+    user.last_name = data["last_name"]
+    user.username = data["email"]
+    user.email = data["email"]
+
+    if data["password"] != "":
+        user.password = make_password(data["password"])
+
+    user.save()
+
+    serializer = UserSerializerWithToken(user, many=False)
+    return Response(serializer.data)
+
+
 @api_view(["GET"])
 @permission_classes([IsAdminUser])
 def getUsers(req):

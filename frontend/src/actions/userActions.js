@@ -4,8 +4,10 @@ import {
     USER_LOGIN_FAIL,
     USER_LOGOUT,
     USER_REGISTER_REQUEST,
-    USER_REGISTER_SUCCESS,
-    USER_REGISTER_FAIL
+    USER_REGISTER_FAIL,
+    USER_UPDATE_REQUEST,
+    USER_UPDATE_SUCCESS,
+    USER_UPDATE_FAIL
 } from '../constants/userConstants';
 import axios from 'axios';
 
@@ -79,6 +81,53 @@ export const Register =
             });
         }
     };
+
+export const Update = user => async (dispatch, getState) => {
+    try {
+        dispatch({
+            type: USER_UPDATE_REQUEST
+        });
+
+        const {
+            user: { userInfo }
+        } = getState();
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${userInfo.access || userInfo.token}`
+            }
+        };
+
+        console.log(config, user);
+
+        const { data } = await axios.put(
+            '/api/users/profile/update/',
+            user,
+            config
+        );
+
+        dispatch({
+            type: USER_UPDATE_SUCCESS,
+            payload: data
+        });
+
+        dispatch({
+            type: USER_LOGIN_SUCCESS,
+            payload: data
+        });
+
+        localStorage.setItem('userInfo', JSON.stringify(data));
+    } catch (error) {
+        dispatch({
+            type: USER_UPDATE_FAIL,
+            payload:
+                error.response && error.response.data.detail
+                    ? error.response.data.detail
+                    : error.message
+        });
+    }
+};
 
 export const Logout = () => dispatch => {
     localStorage.removeItem('userInfo');

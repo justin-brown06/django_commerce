@@ -119,7 +119,7 @@ export const Navbar = props => {
                                     style={{ color: '#5BCA81' }}
                                     variant='body1'
                                 >
-                                    Hello, {userInfo.name}
+                                    Hello, {userInfo.first_name}
                                 </Typography>
                             </IconButton>
                             <StyledMenu

@@ -12,7 +12,8 @@ import {
     ListItem,
     MenuItem,
     Paper,
-    Select
+    Select,
+    Typography
 } from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
@@ -74,7 +75,12 @@ export const ProductScreen = ({ match, history }) => {
         <p>{error}</p>
     ) : (
         <Grid container className={classes.parentGrid}>
-            <Grid item md={6} lg={6}>
+            <Grid
+                item
+                md={6}
+                lg={6}
+                style={{ display: 'flex', flexFlow: 'column wrap' }}
+            >
                 <CustomLink to='/' color='#30323B' style={{ margin: '.5rem' }}>
                     Continue Shopping
                 </CustomLink>
@@ -86,8 +92,9 @@ export const ProductScreen = ({ match, history }) => {
                         <List className={classes.middleGrid}>
                             <Grid item>
                                 <ListItem>
-                                    {/* Add Typography */}
-                                    {product.name}
+                                    <Typography variant={'h5'}>
+                                        {product.name}
+                                    </Typography>
                                 </ListItem>
                                 <ListItem>
                                     <Rating
@@ -99,19 +106,29 @@ export const ProductScreen = ({ match, history }) => {
                             </Grid>
                             <Grid item>
                                 <ListItem>
-                                    Description: {product.description}
+                                    <Typography variant={'body2'}>
+                                        Description: {product.description}
+                                    </Typography>
                                 </ListItem>
                             </Grid>
                         </List>
                     </Grid>
                     <Grid item className={classes.middleGrid}>
                         <List>
-                            <ListItem>Price: {product.price}</ListItem>
                             <ListItem>
-                                Availability:{' '}
-                                {product.countInStock > 0
-                                    ? 'In Stock'
-                                    : 'Out of Stock'}
+                                <Typography variant={'body1'}>
+                                    Price: {product.price}
+                                </Typography>
+                            </ListItem>
+                            <ListItem>
+                                <Typography variant={'body1'}>
+                                    Availability: &nbsp;
+                                </Typography>
+                                <Typography variant={'body2'}>
+                                    {product.countInStock > 0
+                                        ? 'In Stock'
+                                        : 'Out of Stock'}
+                                </Typography>
                             </ListItem>
                             {product.countInStock > 0 ? (
                                 <div>
