@@ -110,6 +110,9 @@ export const Update = user => async (dispatch, getState) => {
             config
         );
 
+        data.shipping_address = data.shipping_address[0];
+        data.billing_address = data.billing_address[0];
+
         dispatch({
             type: USER_UPDATE_SUCCESS,
             payload: data
