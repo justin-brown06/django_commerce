@@ -4,7 +4,8 @@ import {
     CartScreen,
     LoginScreen,
     RegisterScreen,
-    ProfileScreen
+    ProfileScreen,
+    ShippingScreen
 } from './screens';
 import { Navbar } from './components/Navbar';
 
@@ -20,6 +21,7 @@ export const App = () => {
                         <Route path='/login' component={LoginScreen} />
                         <Route path='/register' component={RegisterScreen} />
                         <Route path='/profile' component={ProfileScreen} />
+                        <Route path='/shipping' component={ShippingScreen} />
                         <Route path='/product/:id' component={ProductScreen} />
                         <Route path='/cart/:id?' component={CartScreen} />
                     </div>

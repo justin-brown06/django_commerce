@@ -29,6 +29,9 @@ export const Login = (email, password) => async dispatch => {
             config
         );
 
+        data.shipping_address = data.shipping_address[0];
+        data.billing_address = data.billing_address[0];
+
         dispatch({
             type: USER_LOGIN_SUCCESS,
             payload: data
